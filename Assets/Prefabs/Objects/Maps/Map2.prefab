@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7504667513342477667}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 4.3, z: 0}
+  m_LocalPosition: {x: 3, y: 4.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -46,13 +46,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7504667513740042761}
+  - component: {fileID: 1154196244}
   m_Layer: 0
   m_Name: Map2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7504667513740042761
 Transform:
   m_ObjectHideFlags: 0
@@ -70,6 +71,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1154196244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7504667513740042760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c144fe8092b51c4e9333bd82169c652, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 6
+  cullingPos: -20
 --- !u!1001 &7504667513462491005
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -269,7 +284,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3967726939743655076, guid: 093f42b7cf9a93841960a372e088e750, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 3967726939743655076, guid: 093f42b7cf9a93841960a372e088e750, type: 3}
       propertyPath: m_LocalPosition.y
@@ -306,6 +321,26 @@ PrefabInstance:
     - target: {fileID: 3967726939743655076, guid: 093f42b7cf9a93841960a372e088e750, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3967726939743655079, guid: 093f42b7cf9a93841960a372e088e750, type: 3}
+      propertyPath: m_TileSpriteArray.Array.data[0].m_Data
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3967726939743655079, guid: 093f42b7cf9a93841960a372e088e750, type: 3}
+      propertyPath: m_TileSpriteArray.Array.data[3].m_Data
+      value: 
+      objectReference: {fileID: -7517053698926566003, guid: fc584d329b77b9545b9c9c8bb829e553, type: 3}
+    - target: {fileID: 3967726939743655079, guid: 093f42b7cf9a93841960a372e088e750, type: 3}
+      propertyPath: m_TileSpriteArray.Array.data[0].m_RefCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3967726939743655079, guid: 093f42b7cf9a93841960a372e088e750, type: 3}
+      propertyPath: m_TileSpriteArray.Array.data[3].m_RefCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3967726939743655079, guid: 093f42b7cf9a93841960a372e088e750, type: 3}
+      propertyPath: m_Tiles.Array.data[13].second.m_TileSpriteIndex
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3967726939743655083, guid: 093f42b7cf9a93841960a372e088e750, type: 3}
       propertyPath: m_Name

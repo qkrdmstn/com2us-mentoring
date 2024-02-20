@@ -28,15 +28,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //// Update is called once per frame
+    //void Update()
+    //{
+    //    //Debug.Log(curScore);
+    //}
 
-    // Update is called once per frame
-    void Update()
+    public void GameOver()
     {
-        Debug.Log(curScore);
+        Debug.Log("GameOver");
     }
 }

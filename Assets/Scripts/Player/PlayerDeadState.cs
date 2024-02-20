@@ -11,6 +11,7 @@ public class PlayerDeadState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        GameManager.Instance.GameOver();
     }
 
     public override void Exit()

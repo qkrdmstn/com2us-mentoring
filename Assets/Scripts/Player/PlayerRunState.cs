@@ -22,7 +22,6 @@ public class PlayerRunState : PlayerState
     {
         base.Update();
 
-        Debug.Log(player.IsGroundDetected());
         if (Input.GetKeyDown(KeyCode.Space) && player.IsGroundDetected())
             stateMachine.ChangeState(player.jumpState);
     }
