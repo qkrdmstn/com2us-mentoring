@@ -15,7 +15,7 @@ public class MoveMap : MonoBehaviour
         transform.position = curPos + nxtPos;
         if (transform.position.x <= cullingPos)
         {
-            gameObject.SetActive(false);
+            Destroy(this.gameObject);
         }
     }
 }

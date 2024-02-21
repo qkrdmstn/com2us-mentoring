@@ -76,10 +76,12 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(stateMachine.currentState);
+        //Debug.Log(stateMachine.currentState);
+        //Debug.Log(HP);
+        //Debug.Log(GameManager.Instance.curScore);
         stateMachine.currentState.Update();
 
-        if (rb.transform.position.y < -0.45f)
+        if (rb.transform.position.y < -0.45f && stateMachine.currentState != onWireState && stateMachine.currentState != wireJumpState)
             col.enabled = false;
 
         if (rb.transform.position.y <= -3.0f) //낙사 = 즉사
@@ -94,8 +96,12 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Obstacle")) //충돌 피해 1
+        if (collision.gameObject.CompareTag("Obstacle") || 
+            (collision.gameObject.CompareTag("BreakableObstacle") && (stateMachine.currentState != wireJumpState && stateMachine.currentState != onWireState))) //충돌 피해 1
+        {
+            //Debug.Log(collision.gameObject);
             OnDamaged(1);
+        }
     }
 
     public void SetVelocity(float _xVelocity, float _yVelocity)
@@ -140,6 +146,7 @@ public class Player : MonoBehaviour
     private IEnumerator OnWire()
     {
         Time.timeScale = 0.8f;
+
         rb.gravityScale = 0.0f;
         rb.isKinematic = true;
         float transY = transform.position.y;
@@ -166,9 +173,9 @@ public class Player : MonoBehaviour
     private IEnumerator WireJump()
     {
         //float targetPos = Mathf.Abs(transform.position.y) * 3.0f;
-        while (transform.position.y < 2.0f)
+        while (transform.position.y < 2.3f)
         {
-            transform.position += Vector3.up * 10f * Time.deltaTime;
+            transform.position += Vector3.up * 8.8f * Time.deltaTime;
             yield return null;
         }
         rb.gravityScale = 6.0f;

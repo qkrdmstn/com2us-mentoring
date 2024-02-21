@@ -7,6 +7,7 @@ TagManager:
   - Apple
   - Obstacle
   - Ceiling
+  - BreakableObstacle
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - PlayerDamaged
   - Obstacle
   - Player
-  - Ceiling
+  - 
   - 
   - 
   - 

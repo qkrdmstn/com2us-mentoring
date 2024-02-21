@@ -20,6 +20,7 @@ public class Hook : MonoBehaviour
             Vector3 curPos = transform.position;
             Vector3 nxtPos = Vector3.left * velocity * Time.deltaTime;
             transform.position = curPos + nxtPos;
+            transform.position = new Vector3(transform.position.x, 4.0f, 0);
         }
     }
 
@@ -27,7 +28,6 @@ public class Hook : MonoBehaviour
     {
         if (collision.CompareTag("Ceiling"))
         {
-            transform.position = new Vector3(transform.position.x, 4.0f, 0);
             player.isAttach = true;
             Debug.Log("attach");
             velocity = collision.gameObject.GetComponentInParent<MoveMap>().speed;
