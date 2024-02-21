@@ -67,12 +67,12 @@ public class GrapplingHook : MonoBehaviour
         }
         else if(isAttach)
         {
+            Debug.Log("asd");
             float dist = Vector2.Distance(transform.position, hook.position);
             Vector2 invDir = -dist * dir;
 
 
             StartCoroutine("Wire");
-            isAttach = false;
         }
 
         time += Time.deltaTime;
@@ -87,7 +87,7 @@ public class GrapplingHook : MonoBehaviour
         float veloY = 0;
         float gra = 9.81f;
         float graScale = 14;
-        float rev = 20f + Vector2.Distance(transform.position, hook.position) * 1.2f;
+        float rev = 10f + Vector2.Distance(transform.position, hook.position) * 1.2f;
         veloY -= rev;
 
         do
@@ -97,6 +97,8 @@ public class GrapplingHook : MonoBehaviour
             yield return null;
         }
         while (transY > transform.position.y);
+        isAttach = false;
+
         WireJump();
 
     }

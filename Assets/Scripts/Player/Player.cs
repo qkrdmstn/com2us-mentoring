@@ -1,6 +1,7 @@
 using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,11 +15,21 @@ public class Player : MonoBehaviour
     [Header("Move info")]
     public float jumpForce = 12f;
 
+    [Header("Wire Action Info")]
+    public GameObject hook;
+    public LineRenderer line;
+    public float hookSpeed;
+    public float maxDist;
+    public bool isHookActive;
+    public bool isLineMax;
+    public bool isAttach;
+    public Vector2 dir = new Vector2(1, 1.5f).normalized;
+
     [Header("Collision info")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckDistance;
     [SerializeField] private LayerMask whatIsGround;
-
+ 
     #region Componets
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
@@ -31,7 +42,9 @@ public class Player : MonoBehaviour
     public PlayerRunState runState { get; private set; }
     public PlayerJumpState jumpState { get; private set; }
     public PlayerFallState fallState { get; private set; }
-
+    public PlayerShootWireState shootWireState { get; private set; }
+    public PlayerOnWireState onWireState { get; private set; }
+    public PlayerWireJumpState wireJumpState { get; private set; }
     public PlayerDeadState deadState { get; private set; }
 
     #endregion
@@ -43,6 +56,9 @@ public class Player : MonoBehaviour
         runState = new PlayerRunState(this, stateMachine, "Run");
         jumpState = new PlayerJumpState(this, stateMachine, "Jump");
         fallState = new PlayerFallState(this, stateMachine, "Jump");
+        shootWireState = new PlayerShootWireState(this, stateMachine, "ShootWire", hook, line);
+        onWireState = new PlayerOnWireState(this, stateMachine, "OnWire", hook, line);
+        wireJumpState = new PlayerWireJumpState(this, stateMachine, "WireJump", hook);
         deadState = new PlayerDeadState(this, stateMachine, "Dead");
     }
 
@@ -57,7 +73,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(HP);
+        Debug.Log(stateMachine.currentState);
         stateMachine.currentState.Update();
 
         if (rb.transform.position.y <= -3.0f) //³«»ç = Áï»ç
@@ -68,7 +84,6 @@ public class Player : MonoBehaviour
     {
         Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
     }
-
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -108,5 +123,48 @@ public class Player : MonoBehaviour
     {
         gameObject.layer = 8;
         spriteRenderer.color = new Color(1, 1, 1, 1);
+    }
+
+    public void SetCoroutine(string name)
+    {
+        StartCoroutine(name);
+    }
+
+    private IEnumerator OnWire()
+    {
+        rb.gravityScale = 0.0f;
+        rb.isKinematic = true;
+        float transY = transform.position.y;
+        float veloY = 0;
+        float gra = 9.81f;
+        float graScale = 14;
+        float rev = 10f + Vector2.Distance(transform.position, hook.transform.position) * 1.2f;
+        veloY -= rev;
+
+        do
+        {
+            veloY += gra * graScale * Time.deltaTime;
+            transform.position += Vector3.up * veloY * Time.deltaTime;
+            yield return null;
+        }
+        while (transY > transform.position.y);
+        isAttach = false;
+
+        hook.gameObject.SetActive(false);
+        stateMachine.ChangeState(wireJumpState);
+    }
+
+    private IEnumerator WireJump()
+    {
+        while (transform.position.y < 2.3f)
+        {
+            transform.position += Vector3.up * 3 * Time.deltaTime;
+            yield return null;
+        }
+        rb.gravityScale = 6.0f;
+        rb.isKinematic = false;
+        rb.velocity = Vector3.up * 6f;
+
+        stateMachine.ChangeState(fallState);
     }
 }

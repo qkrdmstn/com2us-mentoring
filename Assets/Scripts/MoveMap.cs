@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoveMap : MonoBehaviour
 {
-    [SerializeField] private float speed;
+    public float speed;
     [SerializeField] private float cullingPos;
     // Update is called once per frame
     void Update()
