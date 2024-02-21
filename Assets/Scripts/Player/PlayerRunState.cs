@@ -11,6 +11,7 @@ public class PlayerRunState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        Time.timeScale = 1.0f;
     }
 
     public override void Exit()

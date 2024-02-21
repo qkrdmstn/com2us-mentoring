@@ -19,13 +19,16 @@ public class PlayerOnWireState : PlayerState
     public override void Enter()
     {
         base.Enter();
-
         player.SetCoroutine("OnWire");
     }
 
     public override void Exit()
     {
         base.Exit();
+
+        player.isHookActive = false;
+        player.isLineMax = false;
+        hook.gameObject.SetActive(false);
     }
 
     public override void Update()

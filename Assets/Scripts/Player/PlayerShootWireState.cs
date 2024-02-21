@@ -57,7 +57,7 @@ public class PlayerShootWireState : PlayerState
         else if (player.isHookActive && player.isLineMax && !player.isAttach)
         {
             hook.transform.position = Vector2.MoveTowards(hook.transform.position, rb.transform.position, Time.deltaTime * player.hookSpeed);
-            if (Vector2.Distance(rb.transform.position, hook.transform.position) < 0.1f)
+            //if (Vector2.Distance(rb.transform.position, hook.transform.position) < 0.1f)
             {
                 player.isHookActive = false;
                 player.isLineMax = false;
@@ -67,11 +67,14 @@ public class PlayerShootWireState : PlayerState
         }
         else if (player.isAttach)
         {
-            Debug.Log("asd");
-            float dist = Vector2.Distance(rb.transform.position, hook.transform.position);
-            Vector2 invDir = -dist * player.dir;
-
             stateMachine.ChangeState(player.onWireState);
+        }
+        else
+        {
+
+            player.isHookActive = false;
+            player.isLineMax = false;
+            hook.gameObject.SetActive(false);
         }
     }
 }

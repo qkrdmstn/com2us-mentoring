@@ -1,6 +1,7 @@
 using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -34,6 +35,7 @@ public class Player : MonoBehaviour
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
     public SpriteRenderer spriteRenderer { get; private set; }
+    public Collider2D col { get; private set; }
 
     #endregion
 
@@ -67,6 +69,7 @@ public class Player : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
+        col = GetComponent<Collider2D>();
 
         stateMachine.Initialize(runState);
     }
@@ -76,8 +79,12 @@ public class Player : MonoBehaviour
         Debug.Log(stateMachine.currentState);
         stateMachine.currentState.Update();
 
+        if (rb.transform.position.y < -0.45f)
+            col.enabled = false;
+
         if (rb.transform.position.y <= -3.0f) //³«»ç = Áï»ç
             OnDamaged(HP);
+
     }
 
     private void OnDrawGizmos()
@@ -132,13 +139,14 @@ public class Player : MonoBehaviour
 
     private IEnumerator OnWire()
     {
+        Time.timeScale = 0.8f;
         rb.gravityScale = 0.0f;
         rb.isKinematic = true;
         float transY = transform.position.y;
         float veloY = 0;
         float gra = 9.81f;
         float graScale = 14;
-        float rev = 10f + Vector2.Distance(transform.position, hook.transform.position) * 1.2f;
+        float rev = 1.0f + Vector2.Distance(transform.position, hook.transform.position) * 1.4f;
         veloY -= rev;
 
         do
@@ -152,13 +160,15 @@ public class Player : MonoBehaviour
 
         hook.gameObject.SetActive(false);
         stateMachine.ChangeState(wireJumpState);
+        Time.timeScale = 1.0f;
     }
 
     private IEnumerator WireJump()
     {
-        while (transform.position.y < 2.3f)
+        //float targetPos = Mathf.Abs(transform.position.y) * 3.0f;
+        while (transform.position.y < 2.0f)
         {
-            transform.position += Vector3.up * 3 * Time.deltaTime;
+            transform.position += Vector3.up * 10f * Time.deltaTime;
             yield return null;
         }
         rb.gravityScale = 6.0f;

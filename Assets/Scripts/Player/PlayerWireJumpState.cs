@@ -14,6 +14,7 @@ public class PlayerWireJumpState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        Time.timeScale = 1.5f;
 
         rb.isKinematic = false;
         player.isAttach = false;
