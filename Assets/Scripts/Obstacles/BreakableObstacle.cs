@@ -24,11 +24,7 @@ public class BreakableObstacle : MonoBehaviour
             ((player.stateMachine.currentState == player.wireJumpState || player.stateMachine.currentState == player.onWireState)))
         {
             anim.SetBool("IsBroken", true);
-            Debug.Log("Obstacle Break!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            Debug.Log(GameManager.Instance.curScore);
-
             GameManager.Instance.curScore += 100;
-            Debug.Log(GameManager.Instance.curScore);
         }
     }
 

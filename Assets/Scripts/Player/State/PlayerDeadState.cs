@@ -11,6 +11,8 @@ public class PlayerDeadState : PlayerState
     public override void Enter()
     {
         base.Enter();
+
+        Debug.Log("Lose");
         GameManager.Instance.GameOver();
         
         //Playe Sound

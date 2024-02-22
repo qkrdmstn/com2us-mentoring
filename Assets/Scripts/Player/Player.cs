@@ -86,7 +86,7 @@ public class Player : MonoBehaviour
         if (rb.transform.position.y < -0.45f && stateMachine.currentState != onWireState && stateMachine.currentState != wireJumpState)
             col.enabled = false;
 
-        if (rb.transform.position.y <= -3.0f) //낙사 = 즉사
+        if (rb.transform.position.y <= -3.0f && !GameManager.Instance.isGameOver) //낙사 = 즉사
             OnDamaged(HP);
 
     }
@@ -102,7 +102,8 @@ public class Player : MonoBehaviour
             (collision.gameObject.CompareTag("BreakableObstacle") && (stateMachine.currentState != wireJumpState && stateMachine.currentState != onWireState))) //충돌 피해 1
         {
             //Debug.Log(collision.gameObject);
-            OnDamaged(1);
+            if(!GameManager.Instance.isGameOver)
+                OnDamaged(1);
         }
     }
 
@@ -165,6 +166,9 @@ public class Player : MonoBehaviour
         {
             veloY += gra * graScale * Time.deltaTime;
             transform.position += Vector3.up * veloY * Time.deltaTime;
+
+            if (GameManager.Instance.isGameOver)
+                yield break;
             yield return null;
         }
         while (transY > transform.position.y);
@@ -181,6 +185,8 @@ public class Player : MonoBehaviour
         while (transform.position.y < 2.3f)
         {
             transform.position += Vector3.up * 8.8f * Time.deltaTime;
+            if (GameManager.Instance.isGameOver)
+                yield break;
             yield return null;
         }
         rb.gravityScale = 6.0f;
