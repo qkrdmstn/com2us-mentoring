@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
 {
     [Header("Life info")]
     public int HP = 3;
-    public int damage { get; private set; }
     [SerializeField] private float coolTime = 1.0f;
 
     [Header("Move info")]
@@ -31,12 +30,14 @@ public class Player : MonoBehaviour
     [SerializeField] private float groundCheckDistance;
     [SerializeField] private LayerMask whatIsGround;
  
+    public StageUIManager stageUIManager;
+
     #region Componets
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
     public SpriteRenderer spriteRenderer { get; private set; }
     public Collider2D col { get; private set; }
-
+    public HpUI hpUI { get; private set; }
     #endregion
 
     #region States
@@ -70,13 +71,14 @@ public class Player : MonoBehaviour
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
+        hpUI = GameObject.Find("HpUI").GetComponent<HpUI>();
 
         stateMachine.Initialize(runState);
     }
 
     private void Update()
     {
-        //Debug.Log(stateMachine.currentState);
+        Debug.Log(stateMachine.currentState);
         //Debug.Log(HP);
         //Debug.Log(GameManager.Instance.curScore);
         stateMachine.currentState.Update();
@@ -111,10 +113,13 @@ public class Player : MonoBehaviour
 
     public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
 
-    public void OnDamaged(int _damage)
+    public void OnDamaged(int damage)
     {
-        damage = _damage;
+        hpUI.InActiveHP(damage);
         HP -= damage;
+
+        //Play Sound
+        SoundManager.Instance.SetEffectSound("Hit");
 
         if (HP == 0)
         {
@@ -183,5 +188,12 @@ public class Player : MonoBehaviour
         rb.velocity = Vector3.up * 6f;
 
         stateMachine.ChangeState(fallState);
+    }
+
+    public void Dead() //Called after dead animation ends
+    {
+        Debug.Log("Dead");
+        gameObject.SetActive(false);
+        stageUIManager.SetActiveGameOverUI();
     }
 }
